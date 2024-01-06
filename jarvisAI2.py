@@ -10,14 +10,6 @@ import datetime
 import mysql.connector
 import sys
 
-my_db = mysql.connector.connect(
-    host="localhost",
-    username="root", 
-    password="root",
-    database="dictionary"
-)
-my_cursor = my_db.cursor()
-
 Assistant = pyttsx3.init('sapi5')
 voices = Assistant.getProperty('voices')
 Assistant.setProperty('voices',voices[1].id)
@@ -32,7 +24,7 @@ def takecommand():
     command = sr.Recognizer()
     with sr.Microphone() as source:
         print("Listening......")
-        command.pause_threshold = 0.8 
+        command.pause_threshold = 1
         audio = command.listen(source)
     
         try:
@@ -55,10 +47,10 @@ def Whatsapp():
         msg = takecommand()
         Speak("Tell Me The Time Sir!")
         Speak("Time In Hour!")
-        hour = int(input("Enter"))
+        hour = int(input("Enter :"))
         Speak("Time In Minutes!")
-        min = int(input("Enter"))
-        pywhatkit.sendwhatmsg("+917972341450",msg,hour,min,25)
+        min = int(input(" Enter :"))
+        pywhatkit.sendwhatmsg("+917972341450",msg,hour,min,10)
         Speak("OK Sir, Sending Whatsapp Message !") 
 
     
@@ -70,12 +62,12 @@ def Whatsapp():
         hour = int(takecommand())
         Speak("Time In Minutes!")
         min = int(takecommand())
-        pywhatkit.sendwhatmsg("+919588493437 ",msg,hour,min,20)
+        pywhatkit.sendwhatmsg("+919588493437 ",msg,hour,min,10)
         Speak("OK Sir, Sending Whatsapp Message !")
     
     elif 'unknown' in name:
         Speak ("What is The Number Of This Person" )
-        phone=int(input("Enter Number Of This Person "))  
+        phone=int(input("Enter Number Of This Person :"))  
         ph ='+91' + phone
         Speak("Tell Me The Message!")
         msg = takecommand()
@@ -84,7 +76,7 @@ def Whatsapp():
         hour = int(input("Enter"))
         Speak("Time In Minutes!")
         min = int(input("Enter"))
-        pywhatkit.sendwhatmsg(ph,msg,hour,min,20)
+        pywhatkit.sendwhatmsg(ph,msg,hour,min,10)
         Speak("OK Sir, Sending Whatsapp Message !")
 
 
@@ -130,22 +122,6 @@ def wishme():
         
     Speak("I am jarvis sir please tell me how may  i help you")
 
-
-def dictionary():
-    Speak("Tell Me The Word!")
-    try:
-        val=takecommand()  
-        try:
-            my_data=(val)
-            Speak(my_data)    
-            my_cursor.execute(f"SELECT Meaning FROM dic1 WHERE Word='{my_data}';")
-            result_search=my_cursor.fetchall()
-            Speak(result_search) # type: ignore
-
-        except: 
-            Speak("Database error")
-    except:
-            Speak("Check input")
 
 def TaskExe():
     wishme()
@@ -240,21 +216,3 @@ def TaskExe():
         elif 'good bye' in query:
             Speak("Ok Sir, Bye")
             sys.exit()
-        
-        elif 'secrch in dictionary' in query:
-            Speak("Tell Me The Word!")
-            word=takecommand()
-            try:
-                val=word
-                try:
-                    my_data=(val)
-                    Speak(my_data)    
-                    my_cursor.execute(f"SELECT Meaning FROM dic1 WHERE Word='{my_data}';")
-                    result_search=my_cursor.fetchall()
-                    Speak(result_search) # type: ignore
-
-                except: 
-                    Speak("Database error")
-            except:
-                Speak("Check input")
-
