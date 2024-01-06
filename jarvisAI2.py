@@ -117,21 +117,11 @@ def OpenApps(b):
 
 
 
-def wishme():
-    hour = int(datetime.datetime.now().hour)
-    if hour>=0 and hour<=11:
-        Speak("Good Morning!")
-    elif hour>=12 and hour<=17:
-        Speak("Good Afternoon!")
-    else:
-        Speak("Good evening!")
-        
-        
-    Speak("I am Altron sir please tell me how may  i help you")
+
 
 
 def TaskExe():
-    wishme()
+    Speak(" Hii Sir , I am Altron ")
     while True:
         query=takecommand()
         if 'YouTube search' in query:
