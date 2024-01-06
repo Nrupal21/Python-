@@ -224,9 +224,9 @@ def TaskExe():
             Speak("Ok Sir, Bye")
             sys.exit()
 
-        elif "find  in dictionary" in query:
+        elif "find in dictionary" in query:
             Speak("Tell me Word")
-            val =takecommand() 
+            val = input("Enter a word :")
             try:
                 val1=val
                 try:
