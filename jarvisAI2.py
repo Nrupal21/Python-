@@ -10,6 +10,13 @@ import datetime
 import mysql.connector
 import sys
 
+my_db = mysql.connector.connect(
+    host="localhost",
+    username="root", 
+    password="root",
+    database="dictionary"
+)
+my_cursor = my_db.cursor()
 Assistant = pyttsx3.init('sapi5')
 voices = Assistant.getProperty('voices')
 Assistant.setProperty('voices',voices[1].id)
@@ -17,7 +24,7 @@ Assistant.setProperty('voices',voices[1].id)
 def Speak(audio):
     
     Assistant.say(audio)
-    print(f"Jarvis: {audio}")
+    print(f"Altron: {audio}")
     Assistant.runAndWait()
 
 def takecommand():
@@ -50,7 +57,7 @@ def Whatsapp():
         hour = int(input("Enter :"))
         Speak("Time In Minutes!")
         min = int(input(" Enter :"))
-        pywhatkit.sendwhatmsg("+917972341450",msg,hour,min,10)
+        pywhatkit.sendwhatmsg("+917972341450",msg,hour,min,18)
         Speak("OK Sir, Sending Whatsapp Message !") 
 
     
@@ -62,7 +69,7 @@ def Whatsapp():
         hour = int(takecommand())
         Speak("Time In Minutes!")
         min = int(takecommand())
-        pywhatkit.sendwhatmsg("+919588493437 ",msg,hour,min,10)
+        pywhatkit.sendwhatmsg("+919588493437 ",msg,hour,min,18)
         Speak("OK Sir, Sending Whatsapp Message !")
     
     elif 'unknown' in name:
@@ -73,10 +80,10 @@ def Whatsapp():
         msg = takecommand()
         Speak("Tell Me The Time Sir!")
         Speak("Time In Hour!")
-        hour = int(input("Enter"))
+        hour = int(input("Enter :"))
         Speak("Time In Minutes!")
-        min = int(input("Enter"))
-        pywhatkit.sendwhatmsg(ph,msg,hour,min,10)
+        min = int(input("Enter :"))
+        pywhatkit.sendwhatmsg(ph,msg,hour,min,18)
         Speak("OK Sir, Sending Whatsapp Message !")
 
 
@@ -120,7 +127,7 @@ def wishme():
         Speak("Good evening!")
         
         
-    Speak("I am jarvis sir please tell me how may  i help you")
+    Speak("I am Altron sir please tell me how may  i help you")
 
 
 def TaskExe():
@@ -129,7 +136,7 @@ def TaskExe():
         query=takecommand()
         if 'YouTube search' in query:
             Speak("OK Sir, This Is What I found For Your Search!")
-            query = query.replace("Jarvis", "")
+            query = query.replace("Altron", "")
             query = query.replace("YouTube search", "")
             web = 'https://www.youtube.com/results?search_query=' + query 
             webbrowser.open(web)
@@ -137,14 +144,14 @@ def TaskExe():
 
         elif 'Google search' in query:
             Speak("OK Sir, This Is What I found For Your Search!")
-            query = query.replace("Jarvis", "")
+            query = query.replace("Altron", "")
             query = query.replace("Google search", "") 
             pywhatkit.search(query)
             Speak("Done Sir")    
         
         elif 'website' in query:
             Speak("OK Sir, Launching....")
-            query = query.replace("Jarvis", "")
+            query = query.replace("Altron", "")
             query = query.replace("website", "")
             web1 = query.replace("open","")
             web2 = 'https://www.'+web1+".com" 
@@ -156,7 +163,7 @@ def TaskExe():
         
         elif 'song' in query:
             Speak("OK Sir, This Is What I found For Your Search!")
-            query = query.replace("Jarvis", "")
+            query = query.replace("Altron", "")
             query = query.replace("play", "")
             musicName = query.replace("song", "")
             pywhatkit.playonyt (musicName)
@@ -164,7 +171,7 @@ def TaskExe():
 
         elif 'Wikipedia' in query:
             Speak("Searching Wikipedia.....")
-            query = query.replace("Jarvis","")
+            query = query.replace("Altron","")
             query = query.replace("Wikipedia","")
             wiki = wikipedia. summary(query,2)
             Speak (f"According To Wikipedia :{wiki}")  
@@ -198,7 +205,7 @@ def TaskExe():
             ss.save('D:\\Vs Code\\AI\\')
 
         elif 'hello' in query:
-            Speak("Hello Sir, I Am Jarvis .") 
+            Speak("Hello Sir, I Am Altron .") 
             Speak("Your Personal AI Assistant!") 
             Speak("How May I Help You?")
 
@@ -216,3 +223,21 @@ def TaskExe():
         elif 'good bye' in query:
             Speak("Ok Sir, Bye")
             sys.exit()
+
+        elif "find  in dictionary" in query:
+            Speak("Tell me Word")
+            val =takecommand() 
+            try:
+                val1=val
+                try:
+                    my_data=(val1)
+                    print(my_data)
+                    my_cursor.execute(f"SELECT Meaning FROM dic1 WHERE Word='{my_data}';")
+                    result_search=my_cursor.fetchall()
+                    print(result_search)
+                    Speak(result_search) # type: ignore
+
+                except: 
+                    Speak("Database error")
+            except:
+                Speak("Check input")
